@@ -1,74 +1,104 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-typedef enum boolean {false, true} bool;
+size = 20;
 
-void drawField(int matrix[50][50]){
-
-    bool newl = true;
-
-    for(int i = 0; i < 50; i++){
-        for(int j = 0; j < 50; j++){
-            if(matrix[i][j] == 1){
-                printf("@");
-                // newl = false;
-            }else{
-                printf("#");
-            }
+void drawField(int **matrix){
+    for(int i = 0; i < size; i++){
+        for(int j = 0; j < size; j++){
+           if(matrix[i][j] == 1)
+                printf(".");
+            else
+                printf(" ");
         }
-        if(newl)
-            printf("\n");
-        newl = true;
+        printf("\n");
+        
     }
 }
 
 int countNeigh(int **matrix, int a, int b){
     int count = 0;
-    for(int i = (a-1); i < (a+1); i ++){
-        for(int j = (b-1); j < (b+1); j ++){
-            if(j != b && i != a && matrix[i][j] == 1){
+    for(int i = (a-1); i < (a+2); i ++){
+        for(int j = (b-1); j < (b+2); j ++){
+            if(matrix[i][j] == 1){
                 count++;
             }
-            // printf("y");
         }
-        // printf("x");
     }
 
     return count;
 }
 
-void createLifes(int **matrix){
+int ** createLifes(int **matrix){
 
-    for(int i = 0; i < 50; i++){
-        for(int j = 0; j < 50; j++){
-            if(i != 0 && i != 49 && j != 0 && j != 49){
+    int **new_matrix = calloc(size, sizeof(int *));
+    for(int i = 0; i < size; i++){
+        new_matrix[i] = calloc(size, sizeof(int));
+    }
+
+    for(int i = 0; i < size; i++){
+        for(int j = 0; j < size; j++){
+            if(i != 0 && i != (size-1) && j != 0 && j != (size-1)){
                 if(matrix[i][j] != 1){
                     int neigh = countNeigh(matrix, i, j);
+                    
                     if(neigh == 3){
-                        matrix[i][j] = 1;
+                        new_matrix[i][j] = 1;
+                    }
+                }
+                else{
+                    int neigh = countNeigh(matrix, i, j);
+                    
+                    if(neigh == 3){
+                        new_matrix[i][j] = 1;
                     }
                 }             
             }
         }
     }
+
+    return new_matrix;
+}
+
+void clearScreen()
+{
+  const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
+  write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
 }
 
 
 int main(){
 
-    int **matrix = calloc(50, sizeof(int*));
-    for (int i=0; i<50; i++){
-        matrix[i] = calloc(50, sizeof(int));
+    int **matrix = calloc(size, sizeof(int*));
+    for (int i=0; i<size; i++){
+        matrix[i] = calloc(size, sizeof(int));
     }
 
-    matrix[24][24] = 1;
-    matrix[25][24] = 1;
-    matrix[26][24] = 1;
+    // matrix[5][5] = 1;
+    // matrix[6][5] = 1;
+    // matrix[6][7] = 1;
+    // matrix[7][5] = 1;
+    // matrix[7][6] = 1;
+    
+    matrix[5][5] = 1;
+    matrix[6][5] = 1;
+    matrix[7][5] = 1;
+    matrix[3][7] = 1;
+    matrix[2][7] = 1;
+    matrix[1][7] = 1;
+
+    // drawField(matrix);
     
 
+    while(1){
 
-    createLifes(matrix);
-    drawField(matrix);
+        drawField(matrix);
+        matrix = createLifes(matrix);
+
+        usleep(100000);
+        clearScreen();
+    }
 
     return 0;
 }
