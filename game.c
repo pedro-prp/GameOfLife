@@ -8,9 +8,9 @@ void drawField(int **matrix){
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
            if(matrix[i][j] == 1)
-                printf(".");
+                printf("*");
             else
-                printf(" ");
+                printf(".");
         }
         printf("\n");
         
@@ -74,10 +74,14 @@ int main(){
     for (int i=0; i<size; i++){
         matrix[i] = calloc(size, sizeof(int));
     }
+
+    srand(time(NULL));
     
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
-            matrix[i][j] = ((5*i) % 2 == 0) ? 1 : 0;
+            if((rand() % 1000) % 2 == 0){
+                matrix[i][j] = 1;
+            }
         }
     }
 
@@ -86,7 +90,7 @@ int main(){
         drawField(matrix);
         matrix = createLifes(matrix);
 
-        usleep(100000);
+        usleep(1000000);
         clearScreen();
     }
 
