@@ -74,22 +74,12 @@ int main(){
     for (int i=0; i<size; i++){
         matrix[i] = calloc(size, sizeof(int));
     }
-
-    // matrix[5][5] = 1;
-    // matrix[6][5] = 1;
-    // matrix[6][7] = 1;
-    // matrix[7][5] = 1;
-    // matrix[7][6] = 1;
     
-    matrix[5][5] = 1;
-    matrix[6][5] = 1;
-    matrix[7][5] = 1;
-    matrix[3][7] = 1;
-    matrix[2][7] = 1;
-    matrix[1][7] = 1;
-
-    // drawField(matrix);
-    
+    for(int i = 0; i < size; i++){
+        for(int j = 0; j < size; j++){
+            matrix[i][j] = ((5*i) % 2 == 0) ? 1 : 0;
+        }
+    }
 
     while(1){
 
