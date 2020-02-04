@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-size = 20;
+size = 50;
 
 void drawField(int **matrix){
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
            if(matrix[i][j] == 1)
-                printf("*");
+                printf("o");
             else
                 printf(".");
         }
@@ -50,7 +50,7 @@ int ** createLifes(int **matrix){
                 else{
                     int neigh = countNeigh(matrix, i, j);
                     
-                    if(neigh == 3){
+                    if(neigh == 3 || neigh == 4){
                         new_matrix[i][j] = 1;
                     }
                 }             
@@ -79,7 +79,7 @@ int main(){
     
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
-            if((rand() % 1000) % 2 == 0){
+            if((rand() % 10) < 5){
                 matrix[i][j] = 1;
             }
         }
@@ -90,7 +90,7 @@ int main(){
         drawField(matrix);
         matrix = createLifes(matrix);
 
-        usleep(1000000);
+        usleep(30000);
         clearScreen();
     }
 
