@@ -79,7 +79,7 @@ int main(){
     
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
-            if((rand() % 10) < 5){
+            if((rand() % 100) % 3 == 0){
                 matrix[i][j] = 1;
             }
         }
@@ -90,7 +90,7 @@ int main(){
         drawField(matrix);
         matrix = createLifes(matrix);
 
-        usleep(30000);
+        usleep(100000);
         clearScreen();
     }
 
