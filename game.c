@@ -13,7 +13,7 @@ void drawField(int **matrix){
                 printf(".");
         }
         printf("\n");
-        
+
     }
 }
 
@@ -76,14 +76,32 @@ int main(){
     }
 
     srand(time(NULL));
+    int seed = rand() % 49;
+    int seedj = rand() % 49;
+    int seedi = rand() % 49;
+
     
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
-            if((rand() % 100) % 3 == 0){
+            // if((rand() % 100) % 3 == 0){
+            //     matrix[i][j] = 1;
+            // }
+            if(i == j 
+               || i + j == seed
+               || i + j == seedj
+               || i + j == seedi
+               || i + j == 49 
+               || i == seedi 
+               || j == seedj
+               ){
                 matrix[i][j] = 1;
             }
         }
-    }
+    } 
+
+    drawField(matrix);
+
+    getchar();
 
     while(1){
 
